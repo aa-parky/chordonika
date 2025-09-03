@@ -1,5 +1,4 @@
 <!doctype html>
-<!--suppress ALL -->
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -13,7 +12,49 @@
     <!-- Your Module CSS -->
     <link rel="stylesheet" href="css/chordonika.css" />
 
-    chordonika refactoring and css split
+    <style>
+        /* Demo-specific styles using only available Tonika variables */
+        .demo-note {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 16px 0;
+            color: var(--color-text-muted);
+            font-size: var(--font-size-sm);
+        }
+
+        .component-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .layout-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .piano-placeholder {
+            background: var(--color-bg-secondary);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body class="tonika-theme-dark">
@@ -48,15 +89,17 @@
         <section>
             <div class="demo-note">
                 <p>
-                    Switch the body class from <code>tonika-theme-dark</code> to
-                    <code>tonika-theme-light</code> (or remove it entirely) to test
-                    your module in light mode.
+                    Use the toggle button below to switch between dark and light themes,
+                    then switch back to the <strong>Chordonika tab</strong> to see how
+                    your module looks in the new theme.
                 </p>
                 <button class="tonika-btn" onclick="toggleTheme()">
                     Toggle Theme
                 </button>
+                <p style="margin-top: 12px; font-size: var(--font-size-sm); color: var(--color-text-muted);">
+                    <strong>Current theme:</strong> <span id="current-theme">Dark</span>
+                </p>
             </div>
-            <div id="theme-test-mount"></div>
         </section>
 
         <!-- Tab 3: Component Gallery -->
@@ -189,12 +232,16 @@
 
     function toggleTheme() {
         const body = document.body;
+        const themeIndicator = document.getElementById('current-theme');
+
         if (body.classList.contains("tonika-theme-dark")) {
             body.classList.remove("tonika-theme-dark");
             body.classList.add("tonika-theme-light");
+            themeIndicator.textContent = "Light";
         } else {
             body.classList.remove("tonika-theme-light");
             body.classList.add("tonika-theme-dark");
+            themeIndicator.textContent = "Dark";
         }
     }
 </script>
@@ -203,21 +250,12 @@
 <script src="js/chordonika.js"></script>
 
 <script>
-    // Initialize Chordonika in the first tab
+    // Initialize Chordonika in the first tab only
     new Chordonika({
         mount: "#chord-selector",
         mode: "card",
         onChordSelected: (chord) => {
             console.log('Selected chord:', chord);
-        }
-    });
-
-    // Initialize a second instance for theme testing
-    new Chordonika({
-        mount: "#theme-test-mount",
-        mode: "card",
-        onChordSelected: (chord) => {
-            console.log('Theme test chord:', chord);
         }
     });
 </script>
